@@ -6,7 +6,6 @@
   "scripts": {
     "test": "budo test.js -- -t bubleify"
   },
-  "files": ["index.js"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dfcreative/enhance-input.git"
