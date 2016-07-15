@@ -1,0 +1,33 @@
+{
+  "name": "input-number",
+  "version": "1.0.0",
+  "description": "Make input recognize numbers",
+  "main": "index.js",
+  "scripts": {
+    "test": "budo test.js -- -t bubleify"
+  },
+  "files": ["index.js"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfcreative/enhance-input.git"
+  },
+  "keywords": [
+    "input",
+    "number",
+    "parse",
+    "smart",
+    "devtools"
+  ],
+  "author": "ΔY <dfcreative@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dfcreative/enhance-input/issues"
+  },
+  "homepage": "https://github.com/dfcreative/enhance-input#readme",
+  "dependencies": {
+    "caret-position2": "^1.0.2"
+  },
+  "devDependencies": {
+    "bubleify": "^0.5.0"
+  }
+}
