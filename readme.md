@@ -2,7 +2,7 @@
 
 Make input field recognize numbers close to the caret, like chrome dev tools:
 
-[![input-number](https://raw.githubusercontent.com/dfcreative/input-number/master/preview.gif "input-number")](http://requirebin.com/badge.png)](http://requirebin.com/?gist=797d1f7e065dae3380eb940545f06340)
+[![input-number](https://raw.githubusercontent.com/dfcreative/input-number/master/preview.gif "input-number")](http://requirebin.com/?gist=797d1f7e065dae3380eb940545f06340)
 
 ## Usage
 
