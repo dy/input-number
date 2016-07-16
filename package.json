@@ -1,6 +1,6 @@
 {
   "name": "input-number",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Make input recognize numbers",
   "main": "index.js",
   "scripts": {
