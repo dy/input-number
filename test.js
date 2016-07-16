@@ -10,5 +10,8 @@ num(input, {
 
 autosize(input);
 
+input.onchange = (e) => {console.log('change')}
+input.oninput = (e) => {console.log('input')}
+
 document.body.appendChild(input);
 

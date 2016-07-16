@@ -9,7 +9,7 @@ const keys = {
 	38: 'up',
 	40: 'down'
 };
-const numRE = /[\.0-9]/;
+const numRE = /[\-\.0-9]/;
 
 module.exports = numerify;
 
@@ -20,6 +20,8 @@ function numerify (input, opts) {
 	opts.min = opts.min || -Infinity;
 	opts.precision = opts.precision || 0.00001;
 
+	var focused = false;
+
 	input.addEventListener('keydown', e => {
 		let key = keys[e.which];
 
@@ -29,7 +31,6 @@ function numerify (input, opts) {
 
 		let str = input.value;
 		let pos = caret.get(input);
-
 
 		//parse left side
 		let left = pos.start;
@@ -66,5 +67,20 @@ function numerify (input, opts) {
 		input.value = result;
 
 		caret.set(input, left, result.length - rightStr.length);
+
+		//resurrect suppressed event
+		let inputEvent = new Event('input');
+		input.dispatchEvent(inputEvent);
+
+		//emulate change event
+		if (!focused) {
+			focused = true;
+			input.addEventListener('blur', function change () {
+				input.removeEventListener('blur', change);
+				let changeEvent = new Event('change');
+				input.dispatchEvent(changeEvent);
+				focused = false;
+			});
+		}
 	});
 }
