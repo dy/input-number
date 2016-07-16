@@ -14,7 +14,11 @@ const num = require('input-number');
 var input = document.createElement('input');
 input.value = 'rgb(230, 110, 210)';
 
-num(input);
+num(input, {
+	min: 0,
+	max: 255,
+	step: 1
+});
 ```
 
 ## See also

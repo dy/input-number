@@ -1,19 +1,27 @@
 /**
- * @module  num-input
+ * @module  input-number
  */
 
 const caret = require('caret-position2');
-
-module.exports = Enhance;
-
+const clamp = require('mumath/clamp');
+const round = require('mumath/round');
 const keys = {
 	38: 'up',
 	40: 'down'
-}
+};
+const numRE = /[\.0-9]/;
 
-function Enhance (input) {
+module.exports = numerify;
+
+function numerify (input, opts) {
+	opts = opts || {};
+	opts.step = opts.step || ((opts.min && opts.max) ? (opts.max - opts.min / 100) : 1);
+	opts.max = opts.max || Infinity;
+	opts.min = opts.min || -Infinity;
+	opts.precision = opts.precision || 0.00001;
+
 	input.addEventListener('keydown', e => {
-		var key = keys[e.which];
+		let key = keys[e.which];
 
 		if (!key) return;
 
@@ -22,7 +30,6 @@ function Enhance (input) {
 		let str = input.value;
 		let pos = caret.get(input);
 
-		let numRE = /[\.0-9]/;
 
 		//parse left side
 		let left = pos.start;
@@ -41,7 +48,15 @@ function Enhance (input) {
 		if (!numStr) return;
 
 		let number = parseFloat(numStr);
-		number = key === 'up' ? number+1 : number-1;
+
+
+		if (key === 'up') {
+			number = clamp((number+opts.step), opts.min, opts.max);
+		}
+		else {
+			number = clamp((number-opts.step), opts.min, opts.max);
+		}
+		number = round(number, opts.precision);
 
 		let leftStr = str.slice(0, left);
 		let rightStr = str.slice(right);
