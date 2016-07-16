@@ -83,4 +83,6 @@ function numerify (input, opts) {
 			});
 		}
 	});
+
+	return input;
 }
