@@ -12,7 +12,7 @@ input.oninput = (e) => {console.log('input')}
 
 document.body.appendChild(input);
 
-
+num(input)
 
 var input2 = document.createElement('input');
 input2.value = '-1.000';

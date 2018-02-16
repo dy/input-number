@@ -1,6 +1,7 @@
 /**
  * @module  input-number
  */
+'use strict'
 
 const caret = require('caret-position2');
 const clamp = require('mumath/clamp');
@@ -11,9 +12,9 @@ const keys = {
 };
 const numRE = /[\-\.0-9]/;
 
-module.exports = numerify;
+module.exports = inputNumber;
 
-function numerify (input, opts) {
+function inputNumber (input, opts) {
 	opts = opts || {};
 	opts.step = opts.step || ((opts.min && opts.max) ? (opts.max - opts.min / 100) : 1);
 	opts.max = opts.max || Infinity;
@@ -22,7 +23,10 @@ function numerify (input, opts) {
 
 	var focused = false;
 
-	input.addEventListener('keydown', e => {
+	input.removeEventListener('keydown', input._inputNumber)
+	input.addEventListener('keydown', keydown)
+
+	function keydown(e) {
 		let key = keys[e.which];
 
 		if (!key) return;
@@ -49,7 +53,7 @@ function numerify (input, opts) {
 		if (!numStr) return;
 
 		let number = parseFloat(numStr);
-
+		let fract = /\.([0-9]+)/.exec(numStr);
 
 		if (key === 'up') {
 			number = clamp((number+opts.step), opts.min, opts.max);
@@ -58,6 +62,9 @@ function numerify (input, opts) {
 			number = clamp((number-opts.step), opts.min, opts.max);
 		}
 		number = round(number, opts.precision);
+
+		// ensure number format
+		if (fract) number = number.toFixed(fract[1].length)
 
 		let leftStr = str.slice(0, left);
 		let rightStr = str.slice(right);
@@ -82,7 +89,9 @@ function numerify (input, opts) {
 				focused = false;
 			});
 		}
-	});
+	}
+
+	input._inputNumber = keydown
 
 	return input;
 }
