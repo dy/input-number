@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/dfcreative/enhance-input#readme",
   "dependencies": {
-    "caret-position2": "^1.0.2",
+    "caret-position2": "^1.0.3",
     "mumath": "^2.3.0"
   },
   "devDependencies": {

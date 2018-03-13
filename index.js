@@ -8,7 +8,8 @@ const clamp = require('mumath/clamp');
 const round = require('mumath/round');
 const keys = {
 	38: 'up',
-	40: 'down'
+	40: 'down',
+	13: 'enter'
 };
 const numRE = /[\-\.0-9]/;
 
@@ -23,13 +24,23 @@ function inputNumber (input, opts) {
 
 	var focused = false;
 
-	input.removeEventListener('keydown', input._inputNumber)
+	if (input._inputNumber) {
+		input.removeEventListener('keydown', input._inputNumber)
+		input.removeEventListener('blur', input._inputNumber.change)
+	}
+
 	input.addEventListener('keydown', keydown)
 
 	function keydown(e) {
 		let key = keys[e.which];
 
 		if (!key) return;
+
+		if (key === 'enter') {
+			let changeEvent = new Event('change');
+			input.dispatchEvent(changeEvent);
+			return;
+		}
 
 		e.preventDefault();
 
@@ -82,16 +93,19 @@ function inputNumber (input, opts) {
 		//emulate change event
 		if (!focused) {
 			focused = true;
-			input.addEventListener('blur', function change () {
-				input.removeEventListener('blur', change);
-				let changeEvent = new Event('change');
-				input.dispatchEvent(changeEvent);
-				focused = false;
-			});
+			input.addEventListener('blur', change);
 		}
+	}
+	keydown.change = change
+	function change () {
+		input.removeEventListener('blur', change);
+		let changeEvent = new Event('change');
+		input.dispatchEvent(changeEvent);
+		focused = false;
 	}
 
 	input._inputNumber = keydown
+
 
 	return input;
 }
